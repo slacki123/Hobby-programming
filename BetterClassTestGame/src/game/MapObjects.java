@@ -11,8 +11,8 @@ public class MapObjects {
 	private Random rand = new Random();
 
 	public MapObjects(String name) {
-		this.xPos = rand.nextInt(3);
-		this.yPos = rand.nextInt(3);
+		this.xPos = rand.nextInt(3)+1;
+		this.yPos = rand.nextInt(3)+1;
 		this.name = name;
 	}
 

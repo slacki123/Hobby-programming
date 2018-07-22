@@ -58,10 +58,11 @@ public class Player {
 
 	}
 //Using the Pythagorean theorem
-	public String getDistanceToObject(MapObjects object) {
+	public double getDistanceToObject(MapObjects object) {
 		double objectDistance = Math
 				.sqrt(Math.pow(object.getyPos() - this.getyPos(), 2) + Math.pow(object.getxPos() - this.getxPos(), 2));
-		return "Your distance to " + object.getObjectName() + " is " + String.format("%.1f", objectDistance) + "m";
+		System.out.println("Your distance to " + object.getObjectName() + " is " + String.format("%.1f", objectDistance) + "m");
+		return  objectDistance;
 
 	}
 	
@@ -70,17 +71,24 @@ public class Player {
 			System.out.println("Your inventory: " + inventory);
 		}
 		else if (input.equals("position")) {
-			System.out.println(this.getPlayerCoordinates());
+			System.out.println(getPlayerCoordinates());
 		}
+//		else if (input.equals("take")) {
+//			playerPickUpObject(getObjectName());
+//		}
 		else {
 			System.out.println("Sorry, I didn't catch that");
 	
 		}
 	}
 	
-	public void playerPickUpObject(String object) {
-		
-		inventory.add(new MapObjects(object));
+	public void playerPickUpObject(MapObjects object) {
+		if(this.getDistanceToObject(object)==0) {
+			object.setyPos(this.getyPos());
+			object.setxPos(this.getxPos());
+		}
+		inventory.add(object);
+		System.out.println(object.getObjectName() + " added to inventory");
 	}
 
 }

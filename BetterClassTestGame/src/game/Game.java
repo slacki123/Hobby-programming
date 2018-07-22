@@ -1,16 +1,28 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-
+	
+	ArrayList<MapObjects> objectList = new ArrayList<MapObjects>();
+	
+	public void loadObjects() {
+	
+		MapObjects sword = new MapObjects("Sword");
+		MapObjects rock = new MapObjects("Rock");
+		
+		objectList.add(sword);
+	
+		System.out.println(sword.getObjectCoordinates());
+	}
 	Player seb = new Player("Seb");
-	MapObjects sword = new MapObjects("Sword");
+
 
 	public void newGame(Player player) {
 		
-		player.playerPickUpObject("iPhone");
-		System.out.println(sword.getObjectCoordinates());
+		
+		loadObjects();
 		
 		intro();
 
@@ -25,10 +37,19 @@ public class Game {
 		System.out.println("\nAt any point in the game you can type in 'action' to do other things than walking\n");
 
 	}
+	
+	public void checkObjectProximity(Player player) {
+			for(MapObjects a : objectList) {
+				if(player.getDistanceToObject(a) == 0) {
+					player.playerPickUpObject(a);
+				}
+			}
+		}
 
 	public void playerMoveLoop(Player player) {
 		boolean temp = true;
 		while (temp) {
+			checkObjectProximity(player);
 			Scanner sc = new Scanner(System.in);
 			System.out.print("> ");
 			String input = sc.nextLine().toLowerCase();
@@ -40,8 +61,8 @@ public class Game {
 				player.playerTakeAction(input1);
 			}
 			player.playerMove(input);
-			System.out.println("You are " + String.format("%.1f", player.getStartingDistance())
-					+ "m away from the castle, keep walking or type 'action'");
+//			System.out.println("You are " + String.format("%.1f", player.getStartingDistance())
+//					+ "m away from the castle, keep walking or type 'action'");
 			if (player.getStartingDistance() > 3 && player.getStartingDistance() <= 5) {
 				temp = false;
 				System.out.println("You're too far from the castle! Go back or the wolves will eat you.");
